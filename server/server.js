@@ -33,8 +33,6 @@ app.get('/api/customers', async (req, res) => {
 app.post('/api/customers', async (req, res) => {
   const { name, email, phone, company, address, notes } = req.body;
   try {
-    console.log('Creating customer with data:', { name, email, phone, company, address, notes });
-    
     // Convert empty strings to null for optional fields
     const emailValue = email && email.trim() !== '' ? email : null;
     const phoneValue = phone && phone.trim() !== '' ? phone : null;
@@ -61,8 +59,6 @@ app.put('/api/customers/:id', async (req, res) => {
   const { id } = req.params;
   const { name, email, phone, company, address, notes } = req.body;
   try {
-    console.log('Updating customer with data:', { id, name, email, phone, company, address, notes });
-    
     // Convert empty strings to null for optional fields
     const emailValue = email && email.trim() !== '' ? email : null;
     const phoneValue = phone && phone.trim() !== '' ? phone : null;
@@ -113,12 +109,22 @@ app.get('/api/projects', async (req, res) => {
 app.post('/api/projects', async (req, res) => {
   const { name, description, customer_id, tech_stack, github_link, status, start_date, end_date } = req.body;
   try {
+    // Convert empty strings to null for optional fields
+    const descriptionValue = description && description.trim() !== '' ? description : null;
+    const customerIdValue = customer_id && customer_id !== '' && customer_id !== null ? parseInt(customer_id) : null;
+    const techStackValue = tech_stack && Array.isArray(tech_stack) && tech_stack.length > 0 ? tech_stack : [];
+    const githubLinkValue = github_link && github_link.trim() !== '' ? github_link : null;
+    const statusValue = status && status.trim() !== '' ? status : 'active';
+    const startDateValue = start_date && start_date.trim() !== '' ? start_date : null;
+    const endDateValue = end_date && end_date.trim() !== '' ? end_date : null;
+    
     const result = await pool.query(
       'INSERT INTO projects (name, description, customer_id, tech_stack, github_link, status, start_date, end_date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
-      [name, description, customer_id, tech_stack, github_link, status, start_date, end_date]
+      [name, descriptionValue, customerIdValue, techStackValue, githubLinkValue, statusValue, startDateValue, endDateValue]
     );
     res.json(result.rows[0]);
   } catch (err) {
+    console.error('Error creating project:', err);
     res.status(500).json({ error: err.message });
   }
 });
@@ -127,12 +133,22 @@ app.put('/api/projects/:id', async (req, res) => {
   const { id } = req.params;
   const { name, description, customer_id, tech_stack, github_link, status, start_date, end_date } = req.body;
   try {
+    // Convert empty strings to null for optional fields
+    const descriptionValue = description && description.trim() !== '' ? description : null;
+    const customerIdValue = customer_id && customer_id !== '' && customer_id !== null ? parseInt(customer_id) : null;
+    const techStackValue = tech_stack && Array.isArray(tech_stack) && tech_stack.length > 0 ? tech_stack : [];
+    const githubLinkValue = github_link && github_link.trim() !== '' ? github_link : null;
+    const statusValue = status && status.trim() !== '' ? status : 'active';
+    const startDateValue = start_date && start_date.trim() !== '' ? start_date : null;
+    const endDateValue = end_date && end_date.trim() !== '' ? end_date : null;
+    
     const result = await pool.query(
       'UPDATE projects SET name=$1, description=$2, customer_id=$3, tech_stack=$4, github_link=$5, status=$6, start_date=$7, end_date=$8, updated_at=CURRENT_TIMESTAMP WHERE id=$9 RETURNING *',
-      [name, description, customer_id, tech_stack, github_link, status, start_date, end_date, id]
+      [name, descriptionValue, customerIdValue, techStackValue, githubLinkValue, statusValue, startDateValue, endDateValue, id]
     );
     res.json(result.rows[0]);
   } catch (err) {
+    console.error('Error updating project:', err);
     res.status(500).json({ error: err.message });
   }
 });

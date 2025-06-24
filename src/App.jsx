@@ -89,9 +89,13 @@ function App() {
         setShowProjectModal(false);
         setEditingProject(null);
         fetchProjects();
+      } else {
+        const errorData = await response.json();
+        alert(errorData.error || 'Error saving project');
       }
     } catch (error) {
       console.error('Error saving project:', error);
+      alert('Error saving project. Please try again.');
     }
   };
 
