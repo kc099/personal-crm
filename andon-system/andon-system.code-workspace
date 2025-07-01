@@ -1,0 +1,57 @@
+{
+  "folders": [
+    {
+      "path": "andon_project"
+    },
+    {
+      "path": "frontend/andon-dashboard"
+    },
+    {
+      "path": "express-server"
+    }
+  ],
+  "settings": {
+    "python.pythonPath": "${workspaceFolder:andon_project}/../andon-env/Scripts/python.exe",
+    "editor.formatOnSave": true
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Start Django",
+        "type": "shell",
+        "command": "..\\andon-env\\Scripts\\activate && python manage.py runserver",
+        "options": {
+          "cwd": "${workspaceFolder:andon_project}"
+        }
+      },
+      {
+        "label": "Start Express",
+        "type": "shell",
+        "command": "node server.js",
+        "options": {
+          "cwd": "${workspaceFolder:express-server}"
+        }
+      },
+      {
+        "label": "Start React",
+        "type": "shell",
+        "command": "npm start",
+        "options": {
+          "cwd": "${workspaceFolder:frontend/andon-dashboard}"
+        }
+      },
+      {
+        "label": "Start All",
+        "dependsOn": ["Start Django", "Start Express", "Start React"]
+      }
+    ]
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-python.python",
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint"
+    ]
+  }
+}
