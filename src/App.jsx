@@ -268,7 +268,7 @@ function App() {
               setEditingCustomer(null);
             }}
           />
-        </Modal>
+        </Modal>cd 
 
         {/* Project Modal */}
         <Modal

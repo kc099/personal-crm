@@ -1,0 +1,14 @@
+
+
+{
+  "folders": [
+    {
+      "name": "Backend (Express.js)",
+      "path": "./backend"
+    },
+    {
+      "name": "Frontend (React)", 
+      "path": "./frontend/andon-dashboard"
+    }
+  ]
+}
